@@ -2,9 +2,9 @@
 Extended Data Table with edit, save and other actions (Grid jQuery plugin). Based on http://dtable.devdrive.org/
 Original Readme in EDTable folder
 
-Example of usege:
+#Example of usege:
 
-<script>
+&lt;script$gt;
     $().ready(function () {
 
         $("#__DIV_ID_OR_CALSS__").dtable({
@@ -84,7 +84,7 @@ Example of usege:
             }
         });
     });.
-</script>
+&lt;/script$gt;
 
 DEFINITIONS: http://prntscr.com/byqvey
 $del_loader = '<div class="add_top_level" data-dtable="add-new-row"><i class="glyphicon glyphicon-plus"></i></div><div class="del_loader saving-in-progress"><i class="fa fa-spinner fa-pulse fa-2x"></i></div>';
@@ -139,7 +139,7 @@ http://prntscr.com/byr25w
 http://prntscr.com/byr3wd
 
 Another example
-<script>
+&lt;script$gt;
 $().ready(function () {
         $("#order_table").dtable({
             template: {
@@ -219,7 +219,7 @@ $().ready(function () {
                 name: "advanced"
             }
         });
-</script>
+&lt;/script$gt;
 
 Difinitions:
 "columns" => [
