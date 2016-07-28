@@ -1,0 +1,107 @@
+{% macro print_attr(attr) %}
+{% if attr %}
+{% for name, value in attr %} {{ name }}="{{ value }}"{% endfor %}
+{% endif %}
+{% endmacro %}
+
+<div class="panel-projects">
+    {# TITLE #}
+    {% if title %}
+    <div class="panel-heading">
+
+        <h3 class="panel-title">{{ title }}</h3>
+    </div>
+    {% endif %}
+    {# SEARCH & PAGINATION #}
+    {% if (pagination or search or aggregators) %}
+    <div class="panel-body">
+
+            {# =====================================
+                AGREGATORS
+                data-dtable="aggregators" attr is required for the root html elem of the pager.
+               ===================================== #}
+            {% if aggregators %}
+            <div class="col-lg-offset-2 col-lg-5 dtable-aggregators" data-dtable="aggregators">
+                {%- for agr, agr_opt in aggregators -%}
+                <span class="agregator" data-agregator="{{agr}}">{{agr_opt.text}} <span><i class="fa fa-spinner fa-pulse fa-1x"></i></span></span>
+                {%- endfor -%}
+            </div>
+            {% endif %}
+
+            {# =====================================
+                PAGINATION
+                data-dtable="pagination" attr is required for the root html elem of the pager.
+               ===================================== #}
+            {% if pagination %}
+                <div class="pull-left col-lg-4 dtable-pagination" data-dtable="pagination"></div>
+            {% endif %}
+
+            {# =====================================
+                SEARCH
+                only one search field supported for a table (this time):
+                data-dtable="search-input" for the input text field
+               ===================================== #}
+            {% if search %}
+                <div class="pull-right col-lg-6">
+                    <input type="text" class="form-control" placeholder="{{ search.placeholder }}" data-dtable="search">
+                </div>
+            {% endif %}
+
+            <div class="clearfix"></div>
+        </div>
+    {% endif %}
+
+    <table class="table table-hover table-striped">
+        {# COLUMNS & FILTER #}
+        <thead>
+            {% if has_column_title %}
+                <tr>
+                    {% for column_id, column_def in columns %}
+                        {% if not column_def.spaned %}
+                        <th{% if column_def.hide %} class="hide"{% endif %}{{ print_attr(column_def.html_tag_attr) }} {% if column_def.width %}style="width: {{ column_def.width }};"{% endif %} {% if column_def.order %}data-dtable="order"{% endif %} data-column="{% if column_def.col %}{{column_def.col}}{% else %}{{ column_id }}{% endif %}"{% if column_def.col_span %} colspan="{{ column_def.col_span }}"{% endif %}>
+                            {% if column_def.title %}
+                            <div>{% if column_def.filter %}<i class="glyphicon glyphicon-filter filtered" data-dtable="filter.icon"></i>{% endif %} {{ column_def.title }} {#ORDER BY#}{% if column_def.order %}<i class="glyphicon glyphicon-sort-by-attributes order-by" data-dtable="order.asc"></i><i class="glyphicon glyphicon-sort-by-attributes-alt order-by" data-dtable="order.desc"></i>{% endif %}</div>
+                            {% endif %}
+                        </th>
+                        {% endif %}
+                    {% endfor %}
+                </tr>
+            {% endif %}
+            {# =====================================
+            COLUMN FILTER
+            filter column by typing in the input field
+            ===================================== #}
+            {% if has_column_filter %}
+            <tr id="filters_row" data-dtable='filter.row'>
+                {% for column_id, column_def in columns %}
+                    {% if column_def.filter %}
+                        <td{% if column_def.hide %} class="hide"{% endif %}>
+                            <div {% if column_def.width %}style="width: {{ column_def.width }};"{% endif %}>
+                                {% if column_def.filter.type == 'list' and column_def.formatter and column_def.formatter.widget_options.list%}
+                                <select class='form-control dtable-filter-select' data-dtable="filter" data-column="{% if column_def.col %}{{column_def.col}}{% else %}{{ column_id }}{% endif %}">
+                                    <option value=''>{{ column_def.filter.placeholder }}</option>
+                                    {% for val, id in column_def.formatter.widget_options.list %}
+                                    <option value="{{id}}">{{val}}</option>
+                                    {% endfor %}
+                                </select>
+                                {% else %}
+                                <input type="text" class="form-control dtable-filter-input" placeholder="{{ column_def.filter.placeholder }}" data-dtable="filter" data-column="{% if column_def.col %}{{column_def.col}}{% else %}{{ column_id }}{% endif %}">
+                                {% endif %}
+                            </div>
+                        </td>
+                    {% else %}
+                        <th{% if column_def.hide %} class="hide"{% endif %}><div {% if column_def.width %}style="width: {{ column_def.width }};"{% endif %}></div></th>
+                    {% endif %}
+                {% endfor %}
+            </tr>
+            {% endif %}
+            <tr>
+                {# LOADING INDICATOR #}
+                <td colspan="{{count_cols}}" class="dtable-loader" data-dtable="loading-container"><div><i class="fa fa-spinner fa-pulse fa-2x" data-dtable="loading"></i></div>
+            </tr>
+        </thead>
+        <tbody data-dtable="table">
+
+        </tbody>
+    </table>
+</div>

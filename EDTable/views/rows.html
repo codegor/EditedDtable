@@ -1,0 +1,33 @@
+{% set ranking_start = ranking.start %}
+{%- if 0 < rows.length -%}
+    {%- for row in rows -%}
+        <tr id="row_id_{{row['id']}}" class="row_on_click{% if row['tr_style'] %} {{row['tr_style']}}{% endif %}" data-row="{{row['id']}}" data-row-type="{{row['row_type']}}" data-row-parent-id="{{row['row_parent_id']}}" data-row-cell-info="{%- if true == row['tooltip'] -%}tooltip{%- elif true == row['popover'] -%}popover{%- else -%}off{%- endif -%}">
+            {%- for column_id, column_def in columns -%}
+                {%- if 'row_num' == column_def.ranking and 'undefined' == row[column_id]-%}
+                    {% set val = dtable.countup(ranking_start) %}
+                    {% set ranking_start = val %}
+                {%- else -%}
+                    {%- set val = row[column_id] -%}
+                {%- endif -%}
+                {% set editing_cols = dtable.parseArrey(row['editing']) %}
+                {% set td_style = dtable.parseObject(row['td_style']) %}
+                {%- if 'undefined' != val -%}
+                    <td class="col_id_{{dtable.removeSpeshSimb(column_id)}}{% if column_def.hide %} hide{% endif %}{% if td_style[column_id] %} {{td_style[column_id]}}{% endif %}"{% if column_id == row['colspan_col'] %} colspan="{{row['colspan']}}" {% endif %} data-column="{{dtable.removeSpeshSimb(column_id)}}" {% if column_def.editable and ('true' != row['no_edit'] or editing_cols[column_id]) %} data-dtable="editable" {% endif %}>
+                        {%- if true == row['tooltip'] and not column_def.no_tooltip and not column_def.hide -%}
+                            <div data-toggle="tooltip" data-placement="top" title="{{ val | escape }}">{{ val }}</div>
+                        {%- elif true == row['popover'] and not column_def.no_tooltip and not column_def.hide -%}
+                            <div data-container="body" data-toggle="popover" data-placement="top" data-content="{{ val | escape }}">{{ val }}</div>
+                        {%- else -%}
+                            {{ val }}
+                        {%- endif -%}
+                    </td>
+                {%- endif -%}
+            {%- endfor -%}
+            {%- if saving.save and saving.rowLoader and 'true' != row['no_edit'] -%}<td class="saving-rows-process"><div class="saving-spiner-cont saving-in-progress"><i class="fa fa-spinner fa-pulse fa-2x"></i></div></td>{%- endif -%}
+        </tr>
+    {%- endfor -%}
+{%- else -%}
+    <tr class="row_empty">
+        <td colspan="{{count_cols}}">Нет данных{%- if saving.save and saving.onEmptyAddRow -%} <i class="glyphicon glyphicon-plus" data-dtable="add-new-row"></i> {%- endif -%}</td>
+    </tr>
+{%- endif -%}

@@ -1,0 +1,26 @@
+<div id="div_field_name" class="form-group">
+    <div class="col-sm-4 row-select">
+        <select class="form-control" data-dtable="rows-per-page-select">
+            {% for num in rows_per_page_select %}
+                <option value="{{ num }}" {% if (num == rows_per_page) %}selected="selected"{% endif %}>{{ num }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <div class="col-sm-8 page-selector-contener">
+    <ul class="pagination" style="margin: 0">
+        {% if (first_last) %}
+            <li><a href="#" class="dtable-page" data-dtable="page" data-page="{{ first }}">&laquo;</a></li>
+        {% endif %}
+        {% for page in pages %}
+            <li {% if (active == page) %}class="active"{% endif %}>
+                <a href="#" class="dtable-page" data-dtable="page" data-page="{{ page }}">{{ page }}</a>
+            </li>
+        {% endfor %}
+        {% if (first_last) %}
+            <li><a href="#" class="dtable-page" data-dtable="page" data-page="{{ last }}">&raquo;</a></li>
+        {% endif %}
+    </ul>
+    </div>
+</div>
+
+
