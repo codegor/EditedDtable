@@ -3,8 +3,8 @@ Extended Data Table with edit, save and other actions (Grid jQuery plugin). Base
 Original Readme in EDTable folder
 
 #Example of usege:
-
-&lt;script$gt;
+<code>
+&lt;script&gt;
     $().ready(function () {
 
         $("#__DIV_ID_OR_CALSS__").dtable({
@@ -84,9 +84,9 @@ Original Readme in EDTable folder
             }
         });
     });.
-&lt;/script$gt;
+&lt;/script&gt;
 
-DEFINITIONS: http://prntscr.com/byqvey
+#DEFINITIONS: http://prntscr.com/byqvey
 $del_loader = '<div class="add_top_level" data-dtable="add-new-row"><i class="glyphicon glyphicon-plus"></i></div><div class="del_loader saving-in-progress"><i class="fa fa-spinner fa-pulse fa-2x"></i></div>';
         return [
             "columns" => [
@@ -104,7 +104,7 @@ $del_loader = '<div class="add_top_level" data-dtable="add-new-row"><i class="gl
                 'active'      => ["hide" => true],
             ],
         ];
-example of sourse: http://prntscr.com/byqvkf
+# Example of sourse: http://prntscr.com/byqvkf
 { 
  "agg":{"cnt":1221},
  "rows":[
@@ -134,12 +134,14 @@ example of sourse: http://prntscr.com/byqvkf
 ]}
 
 save action have 3 actions: POST - create, PUT - UPDATE, DELETE - delete (sended only id)
-save update example data:
+
+##Save update example data:
 http://prntscr.com/byr25w
 http://prntscr.com/byr3wd
 
-Another example
-&lt;script$gt;
+#Another example
+
+&lt;script&gt;
 $().ready(function () {
         $("#order_table").dtable({
             template: {
@@ -219,9 +221,9 @@ $().ready(function () {
                 name: "advanced"
             }
         });
-&lt;/script$gt;
+&lt;/script&gt;
 
-Difinitions:
+#Difinitions:
 "columns" => [
     "order_id"      => ["hide" => true,                          "title" => "",     "width" => '0'],
     "item"          => [                                         "title" => "",     "width" => '3%',                                                                                   "formatter" => ["widget" => 'ajaxsubrow', "widget_options" => ["url" => "_SOME_URL_", "col" => "order_id", 'open' => '<i class="glyphicon glyphicon-minus tree_icon"></i>', 'close' => '<i class="glyphicon glyphicon-plus tree_icon"></i>']]],
@@ -243,5 +245,6 @@ Difinitions:
     "s_id"          => ["hide" => true,                                             "width" => '0'], 
 ]
 
-example of data:
+#Example of data:
 http://prntscr.com/byr50c
+</code>
